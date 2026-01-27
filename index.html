@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Brave Audit</title>
+    <title>The Brave Audit | Complete Report</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -14,36 +14,45 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .trait-radio:checked + label {
-            background-color: #4f46e5;
-            color: white;
-            border-color: #4f46e5;
+        
+        /* Custom Radio Styling for Drift Section */
+        .drift-radio:checked + label {
+            font-weight: 700;
+            border-color: transparent;
         }
+        
+        /* Specific Colors for Frequency */
+        .drift-radio:checked + label.btn-never {
+            background-color: #dcfce7; color: #166534; /* Green */
+        }
+        .drift-radio:checked + label.btn-rarely {
+            background-color: #f1f5f9; color: #475569; /* Slate/Gray */
+        }
+        .drift-radio:checked + label.btn-sometimes {
+            background-color: #fef9c3; color: #854d0e; /* Yellow */
+        }
+        .drift-radio:checked + label.btn-often {
+            background-color: #fee2e2; color: #991b1b; /* Red */
+        }
+
+        /* Standard Radio Styling */
         .tf-radio:checked + label.true-btn {
-            background-color: #10b981;
-            color: white;
-            border-color: #10b981;
+            background-color: #10b981; color: white; border-color: #10b981;
         }
         .tf-radio:checked + label.false-btn {
-            background-color: #ef4444;
-            color: white;
-            border-color: #ef4444;
+            background-color: #ef4444; color: white; border-color: #ef4444;
         }
-        .redflag-checkbox:checked + div {
-            background-color: #fef2f2;
-            border-color: #ef4444;
-            color: #b91c1c;
+        .trait-radio:checked + label {
+            background-color: #4f46e5; color: white; border-color: #4f46e5;
         }
-        .redflag-checkbox:checked + div .icon-box {
-            background-color: #ef4444;
-            color: white;
-            border-color: #ef4444;
-        }
+
         @media print {
             .no-print { display: none; }
             body { background: white; }
             .shadow-lg { shadow: none; }
             .print-break-inside-avoid { break-inside: avoid; }
+            /* Force layout for grid printing */
+            .print-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         }
     </style>
 </head>
@@ -82,22 +91,28 @@
         <div id="audit-content" class="hidden space-y-8 slide-in">
             <form id="auditForm" onsubmit="generateAuditReport(event)">
                 
-                <!-- Part 1: Red Flag Detector -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-red-100">
+                <!-- Part 1: The Drift Detector -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-amber-100">
                     <div class="flex items-center gap-3 mb-2">
-                        <span class="bg-red-100 text-red-700 font-bold py-1 px-3 rounded text-xs uppercase">Part 1</span>
-                        <h3 class="text-xl font-bold text-slate-900">Red Flag Detector</h3>
+                        <span class="bg-amber-100 text-amber-700 font-bold py-1 px-3 rounded text-xs uppercase">Part 1</span>
+                        <h3 class="text-xl font-bold text-slate-900">The Drift Detector</h3>
                     </div>
-                    <p class="text-sm text-slate-500 mb-6">Select any negative traits you consistently see.</p>
+                    
+                    <div class="bg-amber-50 rounded-lg p-4 mb-6 border border-amber-100 flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-amber-600 mt-0.5"></i>
+                        <p class="text-sm text-amber-800 leading-relaxed">
+                            <strong>Why we ask this:</strong> Even good leaders have "drift" behaviors that surface when they are tired, stressed, or under pressure. Identifying these patterns helps us catch them early.
+                        </p>
+                    </div>
 
                     <div class="mb-6">
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Internal & Character</h4>
-                        <div class="grid grid-cols-2 gap-3" id="internal-flags"></div>
+                        <div class="space-y-3" id="internal-flags"></div>
                     </div>
                     
                     <div>
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Relational & Behavioral</h4>
-                        <div class="grid grid-cols-2 gap-3" id="relational-flags"></div>
+                        <div class="space-y-3" id="relational-flags"></div>
                     </div>
                 </div>
 
@@ -174,15 +189,57 @@
                 </div>
             </div>
             
-            <!-- 1. Red Flags Report -->
+            <!-- 1. The Drift Report (Complete) -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6 print-break-inside-avoid">
-                <div class="bg-red-50 px-6 py-3 border-b border-red-100 flex justify-between items-center">
-                    <h3 class="font-bold text-red-900 text-sm uppercase"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Red Flags</h3>
+                <div class="bg-slate-50 px-6 py-3 border-b border-slate-200 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-compass mr-2"></i> The Drift Report</h3>
                 </div>
-                <div class="p-6" id="report-flags"></div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 print-grid">
+                    
+                    <!-- Left Col: The Work (Areas of Concern) -->
+                    <div class="space-y-6">
+                         <!-- Often Section -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="w-2 h-2 rounded-full bg-red-600"></span>
+                                <span class="text-xs font-bold text-red-700 uppercase tracking-wide">Consistent Struggles (Often)</span>
+                            </div>
+                            <div id="report-often" class="flex flex-wrap gap-2 mt-2"></div>
+                        </div>
+                        <!-- Sometimes Section -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+                                <span class="text-xs font-bold text-yellow-700 uppercase tracking-wide">Occasional / Stress Drift (Sometimes)</span>
+                            </div>
+                            <div id="report-sometimes" class="flex flex-wrap gap-2 mt-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Right Col: The Wins (Areas of Strength) -->
+                    <div class="space-y-6">
+                        <!-- Rarely Section -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                                <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Rarely Seen</span>
+                            </div>
+                            <div id="report-rarely" class="flex flex-wrap gap-2 mt-2"></div>
+                        </div>
+                        <!-- Never Section -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                <span class="text-xs font-bold text-green-700 uppercase tracking-wide">Winning (Never Seen)</span>
+                            </div>
+                            <div id="report-never" class="flex flex-wrap gap-2 mt-2"></div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <!-- 2. Reality Check Report (Grouped) -->
+            <!-- 2. Reality Check Report -->
             <div class="space-y-6 mb-8">
                 <!-- Relational -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden print-break-inside-avoid">
@@ -279,18 +336,31 @@
 
         // --- RENDER FORM ---
         function renderAudit() {
-            // Flags
-            const renderFlag = (f) => `
-                <label class="cursor-pointer relative">
-                    <input type="checkbox" name="flag" value="${f}" class="redflag-checkbox hidden">
-                    <div class="border border-slate-200 rounded-lg p-3 flex items-center gap-2 hover:bg-slate-50 transition-colors">
-                        <div class="icon-box w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-[10px] transition-colors"><i class="fa-solid fa-check"></i></div>
-                        <span class="text-xs font-bold select-none">${f}</span>
+            const renderDriftRow = (f, idx, prefix) => `
+                <div class="border-b border-slate-100 py-4 last:border-0">
+                    <div class="text-sm font-semibold text-slate-700 mb-2">${f}</div>
+                    <div class="grid grid-cols-4 gap-2">
+                        <!-- Never -->
+                        <input type="radio" name="drift_${prefix}_${idx}" id="drift_${prefix}_${idx}_never" value="never" class="hidden drift-radio" checked>
+                        <label for="drift_${prefix}_${idx}_never" class="btn-never py-2 text-[10px] sm:text-xs text-center border border-slate-200 rounded-md text-slate-500 bg-white cursor-pointer hover:bg-green-50 transition-all">Never</label>
+                        
+                        <!-- Rarely -->
+                        <input type="radio" name="drift_${prefix}_${idx}" id="drift_${prefix}_${idx}_rarely" value="rarely" class="hidden drift-radio">
+                        <label for="drift_${prefix}_${idx}_rarely" class="btn-rarely py-2 text-[10px] sm:text-xs text-center border border-slate-200 rounded-md text-slate-500 bg-white cursor-pointer hover:bg-slate-50 transition-all">Rarely</label>
+                        
+                        <!-- Sometimes -->
+                        <input type="radio" name="drift_${prefix}_${idx}" id="drift_${prefix}_${idx}_sometimes" value="sometimes" class="hidden drift-radio">
+                        <label for="drift_${prefix}_${idx}_sometimes" class="btn-sometimes py-2 text-[10px] sm:text-xs text-center border border-slate-200 rounded-md text-slate-500 bg-white cursor-pointer hover:bg-yellow-50 transition-all">Sometimes</label>
+                        
+                        <!-- Often -->
+                        <input type="radio" name="drift_${prefix}_${idx}" id="drift_${prefix}_${idx}_often" value="often" class="hidden drift-radio">
+                        <label for="drift_${prefix}_${idx}_often" class="btn-often py-2 text-[10px] sm:text-xs text-center border border-slate-200 rounded-md text-slate-500 bg-white cursor-pointer hover:bg-red-50 transition-all">Often</label>
                     </div>
-                </label>`;
+                    <input type="hidden" name="label_${prefix}_${idx}" value="${f}">
+                </div>`;
             
-            document.getElementById('internal-flags').innerHTML = internalFlags.map(renderFlag).join('');
-            document.getElementById('relational-flags').innerHTML = relationalFlags.map(renderFlag).join('');
+            document.getElementById('internal-flags').innerHTML = internalFlags.map((f, i) => renderDriftRow(f, i, 'int')).join('');
+            document.getElementById('relational-flags').innerHTML = relationalFlags.map((f, i) => renderDriftRow(f, i, 'rel')).join('');
 
             // Domains Loop
             const renderQ = (q) => `
@@ -338,16 +408,37 @@
             e.preventDefault();
             const fd = new FormData(e.target);
             
-            // 1. Process Flags
-            const flags = [];
-            document.querySelectorAll('input[name="flag"]:checked').forEach(el => flags.push(el.value));
-            
-            const flagHTML = flags.length > 0 
-                ? `<div class="flex flex-wrap gap-2">${flags.map(f => `<span class="bg-red-50 text-red-700 px-3 py-1 rounded-full text-xs font-bold border border-red-100"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${f}</span>`).join('')}</div>`
-                : `<p class="text-slate-500 italic text-sm"><i class="fa-solid fa-check-circle text-green-500 mr-1"></i> No red flags identified.</p>`;
-            document.getElementById('report-flags').innerHTML = flagHTML;
+            // 1. Process Drift/Frequency (ALL Categories)
+            const sometimesItems = [];
+            const oftenItems = [];
+            const rarelyItems = [];
+            const neverItems = [];
 
-            // 2. Process Reality Check (Grouped by Domain)
+            const checkDrift = (count, prefix) => {
+                for(let i=0; i<count; i++) {
+                    const val = fd.get(`drift_${prefix}_${i}`);
+                    const label = fd.get(`label_${prefix}_${i}`);
+                    if(val === 'sometimes') sometimesItems.push(label);
+                    if(val === 'often') oftenItems.push(label);
+                    if(val === 'rarely') rarelyItems.push(label);
+                    if(val === 'never') neverItems.push(label);
+                }
+            };
+            checkDrift(internalFlags.length, 'int');
+            checkDrift(relationalFlags.length, 'rel');
+
+            const createPills = (list, colorClass, borderClass, bgClass) => {
+                return list.length > 0 
+                ? list.map(f => `<span class="${bgClass} ${colorClass} px-3 py-1 rounded-full text-xs font-bold border ${borderClass}">${f}</span>`).join('')
+                : '<span class="text-slate-400 italic text-xs">None</span>';
+            }
+
+            document.getElementById('report-often').innerHTML = createPills(oftenItems, 'text-red-700', 'border-red-200', 'bg-red-50');
+            document.getElementById('report-sometimes').innerHTML = createPills(sometimesItems, 'text-yellow-800', 'border-yellow-200', 'bg-yellow-50');
+            document.getElementById('report-rarely').innerHTML = createPills(rarelyItems, 'text-slate-600', 'border-slate-200', 'bg-slate-50');
+            document.getElementById('report-never').innerHTML = createPills(neverItems, 'text-green-700', 'border-green-200', 'bg-green-50');
+
+            // 2. Process Reality Check
             const processDomain = (qList, reportId) => {
                 let html = '';
                 qList.forEach(q => {
@@ -419,3 +510,4 @@
     </script>
 </body>
 </html>
+
