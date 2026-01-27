@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Brave Audit | 4 Domains</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .slide-in { animation: slideIn 0.3s ease-out forwards; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .trait-radio:checked + label {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        .tf-radio:checked + label.true-btn {
+            background-color: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        .tf-radio:checked + label.false-btn {
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+        .redflag-checkbox:checked + div {
+            background-color: #fef2f2;
+            border-color: #ef4444;
+            color: #b91c1c;
+        }
+        .redflag-checkbox:checked + div .icon-box {
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+        @media print {
+            .no-print { display: none; }
+            body { background: white; }
+            .shadow-lg { shadow: none; }
+            .print-break-inside-avoid { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-20">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 no-print">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="font-bold text-xl text-indigo-900 tracking-tight flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved"></i> The Brave Audit
+            </div>
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wide hidden sm:block">
+                Spouse Assessment
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-3xl mx-auto px-4 py-8">
+        
+        <!-- Intro Card -->
+        <div id="audit-intro" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center mb-8 slide-in">
+            <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fa-solid fa-compass text-2xl text-indigo-600"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">Leadership Domains</h2>
+            <p class="text-slate-600 mb-8 leading-relaxed max-w-lg mx-auto">
+                This audit evaluates leadership across the four critical domains of life: 
+                <span class="font-bold text-slate-800">Relational, Spiritual, Financial, and Health.</span>
+            </p>
+            <button onclick="startAudit()" class="bg-indigo-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-indigo-700 transition transform hover:scale-105">
+                Start Assessment
+            </button>
+        </div>
+
+        <!-- Audit Form Content -->
+        <div id="audit-content" class="hidden space-y-8 slide-in">
+            <form id="auditForm" onsubmit="generateAuditReport(event)">
+                
+                <!-- Part 1: Red Flag Detector -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-red-100">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="bg-red-100 text-red-700 font-bold py-1 px-3 rounded text-xs uppercase">Part 1</span>
+                        <h3 class="text-xl font-bold text-slate-900">Red Flag Detector</h3>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-6">Select any negative traits you consistently see.</p>
+
+                    <div class="mb-6">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Internal & Character</h4>
+                        <div class="grid grid-cols-2 gap-3" id="internal-flags"></div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Relational & Behavioral</h4>
+                        <div class="grid grid-cols-2 gap-3" id="relational-flags"></div>
+                    </div>
+                </div>
+
+                <!-- Part 2: The 4 Domains (Reality Check) -->
+                <div>
+                    <div class="flex items-center gap-3 mb-6 mt-10">
+                        <span class="bg-indigo-100 text-indigo-700 font-bold py-1 px-3 rounded text-xs uppercase">Part 2</span>
+                        <h3 class="text-xl font-bold text-slate-900">Life Domains Audit</h3>
+                    </div>
+                    
+                    <!-- Relational -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-bold text-indigo-900 mb-4 flex items-center"><i class="fa-solid fa-users mr-2"></i> Relational</h4>
+                        <div id="domain-relational" class="space-y-6"></div>
+                    </div>
+
+                    <!-- Spiritual -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-bold text-indigo-900 mb-4 flex items-center"><i class="fa-solid fa-church mr-2"></i> Spiritual</h4>
+                        <div id="domain-spiritual" class="space-y-6"></div>
+                    </div>
+
+                    <!-- Financial -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-bold text-indigo-900 mb-4 flex items-center"><i class="fa-solid fa-coins mr-2"></i> Financial</h4>
+                        <div id="domain-financial" class="space-y-6"></div>
+                    </div>
+
+                     <!-- Health -->
+                     <div class="mb-8">
+                        <h4 class="text-lg font-bold text-indigo-900 mb-4 flex items-center"><i class="fa-solid fa-heart-pulse mr-2"></i> Health</h4>
+                        <div id="domain-health" class="space-y-6"></div>
+                    </div>
+                </div>
+
+                <!-- Part 3: Trait Scale -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4 mt-8">
+                        <span class="bg-indigo-100 text-indigo-700 font-bold py-1 px-3 rounded text-xs uppercase">Part 3</span>
+                        <h3 class="text-xl font-bold text-slate-900">Character Traits</h3>
+                    </div>
+                    <div id="trait-questions" class="space-y-6"></div>
+                </div>
+
+                <div class="pt-8 pb-12">
+                    <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl shadow-xl transition-all text-lg">
+                        Generate Full Report
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Audit Results Report -->
+        <div id="audit-results" class="hidden slide-in">
+            <!-- Header -->
+            <div class="flex justify-between items-end mb-6 no-print">
+                <h2 class="text-2xl font-bold text-slate-900">Assessment Results</h2>
+                <button onclick="window.print()" class="text-indigo-600 font-semibold text-sm hover:underline">
+                    <i class="fa-solid fa-print"></i> Save PDF
+                </button>
+            </div>
+
+            <!-- Score Card -->
+             <div class="bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-2xl p-6 text-white shadow-lg mb-8">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-indigo-200 font-medium uppercase tracking-wider text-xs mb-1">Leadership Health</h3>
+                        <div class="text-3xl font-bold" id="result-summary-text">Developing</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold" id="result-avg-score">0.0</div>
+                        <div class="text-xs text-indigo-200">Avg Trait Score</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 1. Red Flags Report -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6 print-break-inside-avoid">
+                <div class="bg-red-50 px-6 py-3 border-b border-red-100 flex justify-between items-center">
+                    <h3 class="font-bold text-red-900 text-sm uppercase"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Red Flags</h3>
+                </div>
+                <div class="p-6" id="report-flags"></div>
+            </div>
+
+            <!-- 2. Reality Check Report (Grouped) -->
+            <div class="space-y-6 mb-8">
+                <!-- Relational -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden print-break-inside-avoid">
+                    <div class="bg-slate-50 px-6 py-3 border-b border-slate-200">
+                        <h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-users mr-2 text-indigo-500"></i> Relational Health</h3>
+                    </div>
+                    <div class="divide-y divide-slate-100" id="report-relational"></div>
+                </div>
+
+                <!-- Spiritual -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden print-break-inside-avoid">
+                    <div class="bg-slate-50 px-6 py-3 border-b border-slate-200">
+                        <h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-church mr-2 text-indigo-500"></i> Spiritual Health</h3>
+                    </div>
+                    <div class="divide-y divide-slate-100" id="report-spiritual"></div>
+                </div>
+
+                <!-- Financial -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden print-break-inside-avoid">
+                    <div class="bg-slate-50 px-6 py-3 border-b border-slate-200">
+                        <h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-coins mr-2 text-indigo-500"></i> Financial Health</h3>
+                    </div>
+                    <div class="divide-y divide-slate-100" id="report-financial"></div>
+                </div>
+
+                <!-- Health -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden print-break-inside-avoid">
+                    <div class="bg-slate-50 px-6 py-3 border-b border-slate-200">
+                        <h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-heart-pulse mr-2 text-indigo-500"></i> Physical Health</h3>
+                    </div>
+                    <div class="divide-y divide-slate-100" id="report-health"></div>
+                </div>
+            </div>
+
+            <!-- 3. Trait Scale Report -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8 print-break-inside-avoid">
+                <div class="bg-slate-50 px-6 py-3 border-b border-slate-200">
+                    <h3 class="font-bold text-slate-800 text-sm uppercase"><i class="fa-solid fa-scale-balanced mr-2 text-indigo-500"></i> Character Traits</h3>
+                </div>
+                <div class="divide-y divide-slate-100" id="report-traits"></div>
+            </div>
+
+            <button onclick="location.reload()" class="w-full border border-slate-300 py-3 rounded-lg text-slate-500 hover:bg-slate-50 no-print">
+                Start New Assessment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const internalFlags = ["Selfish", "Immoral", "Prideful", "Unmotivated", "Mistrust", "Lack of Vulnerability"];
+        const relationalFlags = ["Micromanaging", "Bullying", "Mean / Toxic", "Cliquish", "Devaluing People"];
+
+        const domainQuestions = {
+            relational: [
+                { id: 'presence', text: 'When he walks through the door, phone goes away and he is mentally "here".' },
+                { id: 'listening', text: 'He listens to understand emotions before trying to fix the problem.' },
+                { id: 'tone', text: 'His tone with the family is patient, not sharp or condescending.' },
+                { id: 'romance', text: 'He consistently pursues me (dates, affection) without prompting.' },
+                { id: 'safety', text: 'I feel safe sharing "hard truths" without fear of defensiveness.' }
+            ],
+            spiritual: [
+                { id: 'spirit_lead', text: 'He actively leads the spiritual temperature of the home (prayer, conversation).' },
+                { id: 'spirit_consist', text: 'His public faith matches his private life (Integrity).' },
+                { id: 'discipline', text: 'He leads discipline with calmness and biblical instruction, not anger.' }
+            ],
+            financial: [
+                { id: 'fin_transparency', text: 'He is transparent about our finances; we are a team.' },
+                { id: 'fin_stewardship', text: 'He manages resources wisely and leads us in generosity.' },
+                { id: 'fin_vision', text: 'He initiates conversations about our financial goals/future.' }
+            ],
+            health: [
+                { id: 'health_energy', text: 'He manages his energy so he has something left for us at the end of the day.' },
+                { id: 'health_control', text: 'He models self-control in physical habits (food, substance, screen time).' }
+            ]
+        };
+
+        const traitQuestions = [
+            { id: 'humility', label: 'Humility', poor: 'Prideful / Selfish', rich: 'Humility / Service' },
+            { id: 'patience', label: 'Patience', poor: 'Mean / Toxic', rich: 'Patience / Gentle' },
+            { id: 'empowerment', label: 'Empowerment', poor: 'Micromanaging', rich: 'Empowering / Trusting' },
+            { id: 'connection', label: 'Connection', poor: 'Cliquish / Devaluing', rich: 'Inclusive / Valuing' },
+            { id: 'vulnerability', label: 'Vulnerability', poor: 'Mistrust / Closed', rich: 'Open / Vulnerable' },
+            { id: 'drive', label: 'Drive', poor: 'Unmotivated', rich: 'Initiative / Owner' }
+        ];
+
+        // --- INIT ---
+        function startAudit() {
+            document.getElementById('audit-intro').classList.add('hidden');
+            document.getElementById('audit-content').classList.remove('hidden');
+            renderAudit();
+            window.scrollTo(0,0);
+        }
+
+        // --- RENDER FORM ---
+        function renderAudit() {
+            // Flags
+            const renderFlag = (f) => `
+                <label class="cursor-pointer relative">
+                    <input type="checkbox" name="flag" value="${f}" class="redflag-checkbox hidden">
+                    <div class="border border-slate-200 rounded-lg p-3 flex items-center gap-2 hover:bg-slate-50 transition-colors">
+                        <div class="icon-box w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-[10px] transition-colors"><i class="fa-solid fa-check"></i></div>
+                        <span class="text-xs font-bold select-none">${f}</span>
+                    </div>
+                </label>`;
+            
+            document.getElementById('internal-flags').innerHTML = internalFlags.map(renderFlag).join('');
+            document.getElementById('relational-flags').innerHTML = relationalFlags.map(renderFlag).join('');
+
+            // Domains Loop
+            const renderQ = (q) => `
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
+                    <p class="font-bold text-slate-800 text-sm mb-3">${q.text}</p>
+                    <div class="flex gap-2 mb-3">
+                        <input type="radio" name="${q.id}" id="${q.id}_t" value="true" class="hidden tf-radio">
+                        <label for="${q.id}_t" class="true-btn flex-1 py-3 rounded-lg border border-slate-200 bg-slate-50 text-center text-sm font-bold cursor-pointer transition-all">TRUE</label>
+                        
+                        <input type="radio" name="${q.id}" id="${q.id}_f" value="false" class="hidden tf-radio">
+                        <label for="${q.id}_f" class="false-btn flex-1 py-3 rounded-lg border border-slate-200 bg-slate-50 text-center text-sm font-bold cursor-pointer transition-all">FALSE</label>
+                    </div>
+                    <textarea name="${q.id}_notes" placeholder="Context / Examples..." class="w-full text-sm p-3 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-100 outline-none" rows="1"></textarea>
+                </div>
+            `;
+
+            document.getElementById('domain-relational').innerHTML = domainQuestions.relational.map(renderQ).join('');
+            document.getElementById('domain-spiritual').innerHTML = domainQuestions.spiritual.map(renderQ).join('');
+            document.getElementById('domain-financial').innerHTML = domainQuestions.financial.map(renderQ).join('');
+            document.getElementById('domain-health').innerHTML = domainQuestions.health.map(renderQ).join('');
+
+            // Traits
+            document.getElementById('trait-questions').innerHTML = traitQuestions.map(q => `
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="font-bold text-slate-900 text-base">${q.label}</span>
+                    </div>
+                    <div class="flex justify-between text-[10px] uppercase font-bold tracking-wider mb-2 px-1">
+                        <span class="text-red-400">${q.poor}</span>
+                        <span class="text-green-600 text-right">${q.rich}</span>
+                    </div>
+                    <div class="flex gap-1 mb-3">
+                        ${[1,2,3,4,5].map(n => `
+                            <input type="radio" name="${q.id}" id="${q.id}_${n}" value="${n}" class="hidden trait-radio">
+                            <label for="${q.id}_${n}" class="flex-1 py-3 rounded-lg border border-slate-200 bg-slate-50 text-center font-bold text-slate-500 cursor-pointer hover:bg-indigo-50 transition-all">${n}</label>
+                        `).join('')}
+                    </div>
+                    <textarea name="${q.id}_notes" placeholder="The 'Why'..." class="w-full text-sm p-3 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-100 outline-none" rows="1"></textarea>
+                </div>
+            `).join('');
+        }
+
+        // --- GENERATE REPORT ---
+        function generateAuditReport(e) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            
+            // 1. Process Flags
+            const flags = [];
+            document.querySelectorAll('input[name="flag"]:checked').forEach(el => flags.push(el.value));
+            
+            const flagHTML = flags.length > 0 
+                ? `<div class="flex flex-wrap gap-2">${flags.map(f => `<span class="bg-red-50 text-red-700 px-3 py-1 rounded-full text-xs font-bold border border-red-100"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${f}</span>`).join('')}</div>`
+                : `<p class="text-slate-500 italic text-sm"><i class="fa-solid fa-check-circle text-green-500 mr-1"></i> No red flags identified.</p>`;
+            document.getElementById('report-flags').innerHTML = flagHTML;
+
+            // 2. Process Reality Check (Grouped by Domain)
+            const processDomain = (qList, reportId) => {
+                let html = '';
+                qList.forEach(q => {
+                    const val = fd.get(q.id); 
+                    const note = fd.get(q.id + '_notes');
+                    
+                    let badge = '<span class="text-slate-400 text-xs font-medium">Skipped</span>';
+                    if (val === 'true') badge = '<span class="text-green-600 bg-green-50 px-2 py-1 rounded text-xs font-bold border border-green-100">TRUE</span>';
+                    if (val === 'false') badge = '<span class="text-red-600 bg-red-50 px-2 py-1 rounded text-xs font-bold border border-red-100">FALSE</span>';
+
+                    html += `
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-sm font-semibold text-slate-800 pr-4">${q.text}</p>
+                            ${badge}
+                        </div>
+                        ${note ? `<div class="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100 mt-2 italic">"${note}"</div>` : ''}
+                    </div>`;
+                });
+                document.getElementById(reportId).innerHTML = html || '<p class="p-4 text-slate-400 italic">No answers.</p>';
+            };
+
+            processDomain(domainQuestions.relational, 'report-relational');
+            processDomain(domainQuestions.spiritual, 'report-spiritual');
+            processDomain(domainQuestions.financial, 'report-financial');
+            processDomain(domainQuestions.health, 'report-health');
+
+            // 3. Process Traits
+            let traitHTML = '';
+            let totalScore = 0;
+            let count = 0;
+
+            traitQuestions.forEach(q => {
+                const val = parseInt(fd.get(q.id));
+                const note = fd.get(q.id + '_notes');
+                
+                if(val) { totalScore += val; count++; }
+
+                let scoreColor = 'text-yellow-600';
+                if(val <= 2) scoreColor = 'text-red-600';
+                if(val >= 4) scoreColor = 'text-green-600';
+                
+                const valDisplay = val ? `<span class="text-lg font-bold ${scoreColor}">${val}<span class="text-slate-300 text-xs font-normal">/5</span></span>` : '<span class="text-slate-300 text-xs">-</span>';
+
+                traitHTML += `
+                <div class="p-4 sm:p-6">
+                    <div class="flex justify-between items-center mb-1">
+                        <div>
+                            <span class="font-bold text-slate-800 block">${q.label}</span>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wide">${val <= 2 && val ? q.poor : val >= 4 ? q.rich : ''}</span>
+                        </div>
+                        ${valDisplay}
+                    </div>
+                    ${note ? `<div class="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100 mt-2 italic">"${note}"</div>` : ''}
+                </div>`;
+            });
+            document.getElementById('report-traits').innerHTML = traitHTML;
+
+            // Summary Math
+            const avg = count ? (totalScore/count).toFixed(1) : "0.0";
+            document.getElementById('result-avg-score').innerText = avg;
+            document.getElementById('result-summary-text').innerText = avg >= 4.5 ? "Exemplary" : avg >= 3.5 ? "Strong Foundation" : "Developing";
+
+            // View Switch
+            document.getElementById('audit-content').classList.add('hidden');
+            document.getElementById('audit-results').classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+    </script>
+</body>
+</html>
