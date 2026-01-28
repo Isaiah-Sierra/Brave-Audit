@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Covenant Alignment | Husband Edition</title>
+    <title>The Covenant Alignment</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -73,43 +73,71 @@
                 <img src="https://images.squarespace-cdn.com/content/v1/586c2259579fb3ccd8b5cd4a/1503978477490-86FAD7OFE2UR0K75OXH2/Icon.png?format=1500w" class="h-8 w-auto" alt="Logo">
                 The Covenant Alignment
             </button>
-            <div class="text-xs font-semibold text-gray-400 uppercase tracking-wide hidden sm:block">
-                Husband Edition
+            <div id="nav-badge" class="text-xs font-semibold text-gray-400 uppercase tracking-wide hidden sm:block">
+                Select Version
             </div>
         </div>
     </nav>
 
     <div class="max-w-3xl mx-auto px-4 py-8">
         
-        <!-- Intro Card -->
-        <div id="audit-intro" class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 text-center mb-8 slide-in">
+        <!-- MODE SELECTION (First Screen) -->
+        <div id="mode-selection" class="slide-in">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-[#2D324D] mb-2">Whose alignment are we checking?</h1>
+                <p class="text-gray-500">Select the appropriate path to begin.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Husband Option -->
+                <button onclick="setMode('husband')" class="bg-white p-6 rounded-2xl shadow-sm border-2 border-transparent hover:border-[#2D324D] transition-all group text-left">
+                    <div class="w-12 h-12 bg-[#2D324D]/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-[#2D324D] group-hover:text-white transition-colors text-[#2D324D]">
+                        <i class="fa-solid fa-user-tie text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#2D324D] mb-1">Husband Alignment</h3>
+                    <p class="text-xs text-gray-500">Wife fills this out regarding her husband's leadership.</p>
+                </button>
+
+                <!-- Wife Option -->
+                <button onclick="setMode('wife')" class="bg-white p-6 rounded-2xl shadow-sm border-2 border-transparent hover:border-[#E40046] transition-all group text-left">
+                    <div class="w-12 h-12 bg-[#E40046]/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-[#E40046] group-hover:text-white transition-colors text-[#E40046]">
+                        <i class="fa-solid fa-user text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#2D324D] mb-1">Wife Alignment</h3>
+                    <p class="text-xs text-gray-500">Husband fills this out regarding his wife's influence.</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- Intro Card (Dynamic) -->
+        <div id="audit-intro" class="hidden bg-white p-8 rounded-2xl shadow-sm border border-gray-200 text-center mb-8 slide-in">
             <div class="w-24 h-24 mx-auto mb-6">
                 <img src="https://images.squarespace-cdn.com/content/v1/586c2259579fb3ccd8b5cd4a/1503978477490-86FAD7OFE2UR0K75OXH2/Icon.png?format=1500w" class="w-full h-full object-contain" alt="Logo">
             </div>
             
-            <div class="flex justify-center gap-4 mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
-                <span class="bg-gray-100 px-3 py-1 rounded-full">Focus: The Husband</span>
-                <span class="bg-gray-100 px-3 py-1 rounded-full">Input: The Wife</span>
+            <div class="flex justify-center gap-2 mb-6 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-500">
+                <span class="bg-gray-100 px-4 py-1.5 rounded-full" id="intro-focus">FOCUS: THE HUSBAND</span>
+                <span class="bg-gray-100 px-4 py-1.5 rounded-full" id="intro-input">INPUT: THE WIFE</span>
             </div>
 
-            <h2 class="text-3xl font-bold text-[#2D324D] mb-4">The Covenant Alignment</h2>
+            <h2 class="text-3xl sm:text-4xl font-bold text-[#2D324D] mb-6">The Covenant Alignment</h2>
             
-            <p class="text-gray-600 mb-6 leading-relaxed max-w-lg mx-auto">
-                <strong>Our Purpose:</strong> Marriage is a covenant, not a contract. This tool helps us honor that covenant by moving from guessing to knowing. By offering honest feedback on the four key domains (<span class="font-bold text-[#E40046]">Relational, Spiritual, Financial, Health</span>), we align our actions with our vows.
+            <p class="text-gray-600 mb-8 leading-relaxed max-w-lg mx-auto text-sm sm:text-base">
+                <strong class="text-[#3C4247]">Our Purpose:</strong> Marriage is a covenant, not a contract. This tool helps us honor that covenant by moving from guessing to knowing. By offering honest feedback on the four key domains (<span class="font-bold text-[#E40046]">Relational, Spiritual, Financial, Health</span>), we align our actions with our vows.
             </p>
 
-            <div class="max-w-lg mx-auto mb-8 bg-[#2D324D]/5 rounded-lg p-5 border-l-4 border-[#2D324D] text-left">
-                <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Our Heart Posture</span>
-                <p class="text-[#2D324D] italic text-lg mb-2 font-serif">"Instead, speaking the truth in love, we will grow to become in every respect the mature body of him who is the head, that is, Christ."</p>
+            <div class="max-w-lg mx-auto mb-10 bg-gray-50 rounded-lg p-6 border-l-4 border-[#2D324D] text-left">
+                <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Our Heart Posture</span>
+                <p class="text-[#2D324D] italic text-lg mb-3 font-serif leading-relaxed">"Instead, speaking the truth in love, we will grow to become in every respect the mature body of him who is the head, that is, Christ."</p>
                 <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">— Ephesians 4:15</p>
             </div>
 
-            <button onclick="startAudit()" class="bg-[#E40046] text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-[#C0003A] transition transform hover:scale-105">
+            <button onclick="startAudit()" class="bg-[#E40046] text-white font-bold py-3 px-10 rounded-lg shadow-lg hover:bg-[#C0003A] transition transform hover:scale-105 mb-6">
                 Start Review
             </button>
             
             <!-- Privacy Note -->
-            <div class="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
+            <div class="flex items-center justify-center gap-2 text-xs text-gray-400">
                 <i class="fa-solid fa-lock"></i>
                 <span>Anonymous & Private. No data is saved/stored.</span>
             </div>
@@ -128,9 +156,7 @@
                     
                     <div class="bg-orange-50/50 rounded-lg p-4 mb-6 border border-orange-100 flex items-start gap-3">
                         <i class="fa-solid fa-circle-info text-orange-600 mt-0.5"></i>
-                        <p class="text-sm text-orange-800 leading-relaxed">
-                            <strong>To the Wife:</strong> We all drift when we are tired or stressed. Helping him identify where he tends to drift isn't criticism—it's giving him a map to get back on track.
-                        </p>
+                        <p class="text-sm text-orange-800 leading-relaxed" id="drift-instruction">...</p>
                     </div>
 
                     <div class="mb-6">
@@ -187,7 +213,7 @@
 
                 <div class="pt-8 pb-12">
                     <button type="submit" class="w-full bg-[#3C4247] hover:bg-[#2D324D] text-white font-bold py-4 rounded-xl shadow-xl transition-all text-lg">
-                        Generate Report Card
+                        Generate Alignment Report
                     </button>
                 </div>
             </form>
@@ -197,7 +223,7 @@
         <div id="audit-results" class="hidden slide-in">
             <!-- Header -->
             <div class="flex justify-between items-end mb-4 no-print">
-                <h2 class="text-2xl font-bold text-[#2D324D]">Assessment Results</h2>
+                <h2 class="text-2xl font-bold text-[#2D324D]">Alignment Report</h2>
                 <button onclick="window.print()" class="text-[#E40046] font-semibold text-sm hover:underline">
                     <i class="fa-solid fa-print"></i> Save PDF
                 </button>
@@ -215,12 +241,12 @@
              <div class="bg-gradient-to-br from-[#E40046] to-[#00B2A9] rounded-2xl p-6 text-white shadow-lg mb-8">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h3 class="text-white/80 font-medium uppercase tracking-wider text-xs mb-1">Husband's Leadership Health</h3>
+                        <h3 class="text-white/80 font-medium uppercase tracking-wider text-xs mb-1" id="report-subject-label">Subject's Alignment</h3>
                         <div class="text-3xl font-bold" id="result-summary-text">Developing</div>
                     </div>
                     <div class="text-center">
                         <div class="text-4xl font-bold" id="result-avg-score">0.0</div>
-                        <div class="text-xs text-white/80">Avg Trait Score</div>
+                        <div class="text-xs text-white/80">Avg Alignment Score</div>
                     </div>
                 </div>
             </div>
@@ -319,59 +345,124 @@
             </div>
 
             <button onclick="location.reload()" class="w-full border border-gray-300 py-3 rounded-lg text-gray-500 hover:bg-gray-50 no-print">
-                Start New Assessment
+                Start New Alignment
             </button>
         </div>
     </div>
 
     <script>
-        // --- DATA ---
-        const internalFlags = ["Selfish", "Immoral", "Prideful", "Unmotivated", "Mistrust", "Lack of Vulnerability"];
-        const relationalFlags = ["Micromanaging", "Bullying", "Mean / Toxic", "Cliquish", "Devaluing People"];
+        // --- CONFIG & STATE ---
+        let currentMode = 'husband'; // 'husband' or 'wife'
 
-        const domainQuestions = {
-            relational: [
-                { id: 'presence', text: 'When he walks through the door, phone goes away and he is mentally "here".' },
-                { id: 'listening', text: 'He listens to understand emotions before trying to fix the problem.' },
-                { id: 'tone', text: 'His tone with the family is patient, not sharp or condescending.' },
-                { id: 'romance', text: 'He consistently pursues me (dates, affection) without prompting.' },
-                { id: 'safety', text: 'I feel safe sharing "hard truths" without fear of defensiveness.' }
-            ],
-            spiritual: [
-                { id: 'spirit_lead', text: 'He actively leads the spiritual temperature of the home (prayer, conversation).' },
-                { id: 'spirit_consist', text: 'His public faith matches his private life (Integrity).' },
-                { id: 'discipline', text: 'He leads discipline with calmness and biblical instruction, not anger.' }
-            ],
-            financial: [
-                { id: 'fin_transparency', text: 'He is transparent about our finances; we are a team.' },
-                { id: 'fin_stewardship', text: 'He manages resources wisely and leads us in generosity.' },
-                { id: 'fin_vision', text: 'He initiates conversations about our financial goals/future.' }
-            ],
-            health: [
-                { id: 'health_energy', text: 'He manages his energy so he has something left for us at the end of the day.' },
-                { id: 'health_control', text: 'He models self-control in physical habits (food, substance, screen time).' }
-            ]
+        // --- DATA OBJECTS ---
+        const DATA = {
+            husband: {
+                focus: "FOCUS: THE HUSBAND",
+                input: "INPUT: THE WIFE",
+                driftInstruction: "<strong>To the Wife:</strong> We all drift when we are tired or stressed. Helping him identify where he tends to drift isn't criticism—it's giving him a map to get back on track.",
+                internalFlags: ["Selfish", "Immoral", "Prideful", "Unmotivated", "Mistrust", "Lack of Vulnerability"],
+                relationalFlags: ["Micromanaging", "Bullying", "Mean / Toxic", "Cliquish", "Devaluing People"],
+                domains: {
+                    relational: [
+                        { id: 'presence', text: 'When he walks through the door, phone goes away and he is mentally "here".' },
+                        { id: 'listening', text: 'He listens to understand emotions before trying to fix the problem.' },
+                        { id: 'tone', text: 'His tone with the family is patient, not sharp or condescending.' },
+                        { id: 'romance', text: 'He consistently pursues me (dates, affection) without prompting.' },
+                        { id: 'safety', text: 'I feel safe sharing "hard truths" without fear of defensiveness.' }
+                    ],
+                    spiritual: [
+                        { id: 'spirit_lead', text: 'He actively leads the spiritual temperature of the home (prayer, conversation).' },
+                        { id: 'spirit_consist', text: 'His public faith matches his private life (Integrity).' },
+                        { id: 'discipline', text: 'He leads discipline with calmness and biblical instruction, not anger.' }
+                    ],
+                    financial: [
+                        { id: 'fin_transparency', text: 'He is transparent about our finances; we are a team.' },
+                        { id: 'fin_stewardship', text: 'He manages resources wisely and leads us in generosity.' },
+                        { id: 'fin_vision', text: 'He initiates conversations about our financial goals/future.' }
+                    ],
+                    health: [
+                        { id: 'health_energy', text: 'He manages his energy so he has something left for us at the end of the day.' },
+                        { id: 'health_control', text: 'He models self-control in physical habits (food, substance, screen time).' }
+                    ]
+                },
+                traits: [
+                    { id: 'humility', label: 'Humility', poor: 'Prideful / Selfish', rich: 'Humility / Service' },
+                    { id: 'patience', label: 'Patience', poor: 'Mean / Toxic', rich: 'Patience / Gentle' },
+                    { id: 'empowerment', label: 'Empowerment', poor: 'Micromanaging', rich: 'Empowering / Trusting' },
+                    { id: 'connection', label: 'Connection', poor: 'Cliquish / Devaluing', rich: 'Inclusive / Valuing' },
+                    { id: 'vulnerability', label: 'Vulnerability', poor: 'Mistrust / Closed', rich: 'Open / Vulnerable' },
+                    { id: 'drive', label: 'Drive', poor: 'Unmotivated', rich: 'Initiative / Owner' }
+                ]
+            },
+            wife: {
+                focus: "FOCUS: THE WIFE",
+                input: "INPUT: THE HUSBAND",
+                driftInstruction: "<strong>To the Husband:</strong> Stress affects everyone. Identifying her 'drift' behaviors helps you understand her needs and pray for her more effectively.",
+                internalFlags: ["Anxious", "Critical", "Insecure", "Discontent", "Unforgiving", "Prideful"],
+                relationalFlags: ["Disrespectful", "Nagging", "Withholding Affection", "Controlling", "Cold / Distant"],
+                domains: {
+                    relational: [
+                        { id: 'respect', text: 'She speaks to me with respect, both in private and in public (Eph 5:33).' },
+                        { id: 'peace', text: 'She helps create a peaceful atmosphere in the home.' },
+                        { id: 'listening', text: 'She listens to my thoughts without interrupting or immediately correcting.' },
+                        { id: 'belief', text: 'She communicates belief in me and my leadership.' },
+                        { id: 'warmth', text: 'She is physically affectionate and open to intimacy.' }
+                    ],
+                    spiritual: [
+                        { id: 'spirit_walk', text: 'She prioritizes her own daily walk with God.' },
+                        { id: 'wisdom', text: 'She brings biblical wisdom and discernment into our decisions.' },
+                        { id: 'nurture', text: 'She actively nurtures the faith of our children (if applicable).' }
+                    ],
+                    financial: [
+                        { id: 'contentment', text: 'She practices contentment with what we have.' },
+                        { id: 'stewardship', text: 'She partners with me in managing our resources wisely.' },
+                        { id: 'trust', text: 'She trusts our financial plan and supports our giving goals.' }
+                    ],
+                    health: [
+                        { id: 'self_care', text: 'She prioritizes her physical health and rest.' },
+                        { id: 'stress_mgmt', text: 'She manages her stress levels in healthy ways.' }
+                    ]
+                },
+                traits: [
+                    { id: 'respect', label: 'Respect', poor: 'Disrespectful / Dismissive', rich: 'Respectful / Honoring' },
+                    { id: 'gentleness', label: 'Gentleness', poor: 'Harsh / Sharp', rich: 'Gentle / Kind' },
+                    { id: 'support', label: 'Support', poor: 'Critical / Tearing Down', rich: 'Encouraging / Building Up' },
+                    { id: 'patience', label: 'Patience', poor: 'Irritable / Anxious', rich: 'Patient / Peaceful' },
+                    { id: 'wisdom', label: 'Wisdom', poor: 'Reactive / Emotional', rich: 'Wise / Prudent' },
+                    { id: 'kindness', label: 'Kindness', poor: 'Cold / Distant', rich: 'Warm / Engaging' }
+                ]
+            }
         };
 
-        const traitQuestions = [
-            { id: 'humility', label: 'Humility', poor: 'Prideful / Selfish', rich: 'Humility / Service' },
-            { id: 'patience', label: 'Patience', poor: 'Mean / Toxic', rich: 'Patience / Gentle' },
-            { id: 'empowerment', label: 'Empowerment', poor: 'Micromanaging', rich: 'Empowering / Trusting' },
-            { id: 'connection', label: 'Connection', poor: 'Cliquish / Devaluing', rich: 'Inclusive / Valuing' },
-            { id: 'vulnerability', label: 'Vulnerability', poor: 'Mistrust / Closed', rich: 'Open / Vulnerable' },
-            { id: 'drive', label: 'Drive', poor: 'Unmotivated', rich: 'Initiative / Owner' }
-        ];
+        // --- INIT & MODE SWITCHING ---
+        function setMode(mode) {
+            currentMode = mode;
+            const data = DATA[mode];
+            
+            // Hide selection, show intro
+            document.getElementById('mode-selection').classList.add('hidden');
+            document.getElementById('audit-intro').classList.remove('hidden');
+            
+            // Update Text
+            document.getElementById('nav-badge').innerText = mode === 'husband' ? 'Husband Alignment' : 'Wife Alignment';
+            document.getElementById('intro-focus').innerText = data.focus;
+            document.getElementById('intro-input').innerText = data.input;
+            document.getElementById('drift-instruction').innerHTML = data.driftInstruction;
+            
+            // Pre-render form to be ready
+            renderAudit();
+        }
 
-        // --- INIT ---
         function startAudit() {
             document.getElementById('audit-intro').classList.add('hidden');
             document.getElementById('audit-content').classList.remove('hidden');
-            renderAudit();
             window.scrollTo(0,0);
         }
 
         // --- RENDER FORM ---
         function renderAudit() {
+            const data = DATA[currentMode];
+
             const renderDriftRow = (f, idx, prefix) => `
                 <div class="border-b border-gray-100 py-4 last:border-0">
                     <div class="text-sm font-semibold text-[#3C4247] mb-2">${f}</div>
@@ -395,8 +486,8 @@
                     <input type="hidden" name="label_${prefix}_${idx}" value="${f}">
                 </div>`;
             
-            document.getElementById('internal-flags').innerHTML = internalFlags.map((f, i) => renderDriftRow(f, i, 'int')).join('');
-            document.getElementById('relational-flags').innerHTML = relationalFlags.map((f, i) => renderDriftRow(f, i, 'rel')).join('');
+            document.getElementById('internal-flags').innerHTML = data.internalFlags.map((f, i) => renderDriftRow(f, i, 'int')).join('');
+            document.getElementById('relational-flags').innerHTML = data.relationalFlags.map((f, i) => renderDriftRow(f, i, 'rel')).join('');
 
             // Domains Loop
             const renderQ = (q) => `
@@ -413,13 +504,13 @@
                 </div>
             `;
 
-            document.getElementById('domain-relational').innerHTML = domainQuestions.relational.map(renderQ).join('');
-            document.getElementById('domain-spiritual').innerHTML = domainQuestions.spiritual.map(renderQ).join('');
-            document.getElementById('domain-financial').innerHTML = domainQuestions.financial.map(renderQ).join('');
-            document.getElementById('domain-health').innerHTML = domainQuestions.health.map(renderQ).join('');
+            document.getElementById('domain-relational').innerHTML = data.domains.relational.map(renderQ).join('');
+            document.getElementById('domain-spiritual').innerHTML = data.domains.spiritual.map(renderQ).join('');
+            document.getElementById('domain-financial').innerHTML = data.domains.financial.map(renderQ).join('');
+            document.getElementById('domain-health').innerHTML = data.domains.health.map(renderQ).join('');
 
             // Traits
-            document.getElementById('trait-questions').innerHTML = traitQuestions.map(q => `
+            document.getElementById('trait-questions').innerHTML = data.traits.map(q => `
                 <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                     <div class="flex justify-between items-end mb-2">
                         <span class="font-bold text-[#3C4247] text-base">${q.label}</span>
@@ -443,8 +534,9 @@
         function generateAuditReport(e) {
             e.preventDefault();
             const fd = new FormData(e.target);
+            const data = DATA[currentMode];
             
-            // 1. Process Drift/Frequency (ALL Categories)
+            // 1. Process Drift/Frequency
             const sometimesItems = [];
             const oftenItems = [];
             const rarelyItems = [];
@@ -460,8 +552,8 @@
                     if(val === 'never') neverItems.push(label);
                 }
             };
-            checkDrift(internalFlags.length, 'int');
-            checkDrift(relationalFlags.length, 'rel');
+            checkDrift(data.internalFlags.length, 'int');
+            checkDrift(data.relationalFlags.length, 'rel');
 
             const createPills = (list, colorClass, borderClass, bgClass) => {
                 return list.length > 0 
@@ -497,17 +589,17 @@
                 document.getElementById(reportId).innerHTML = html || '<p class="p-4 text-gray-400 italic">No answers.</p>';
             };
 
-            processDomain(domainQuestions.relational, 'report-relational');
-            processDomain(domainQuestions.spiritual, 'report-spiritual');
-            processDomain(domainQuestions.financial, 'report-financial');
-            processDomain(domainQuestions.health, 'report-health');
+            processDomain(data.domains.relational, 'report-relational');
+            processDomain(data.domains.spiritual, 'report-spiritual');
+            processDomain(data.domains.financial, 'report-financial');
+            processDomain(data.domains.health, 'report-health');
 
             // 3. Process Traits
             let traitHTML = '';
             let totalScore = 0;
             let count = 0;
 
-            traitQuestions.forEach(q => {
+            data.traits.forEach(q => {
                 const val = parseInt(fd.get(q.id));
                 const note = fd.get(q.id + '_notes');
                 
@@ -537,6 +629,9 @@
             const avg = count ? (totalScore/count).toFixed(1) : "0.0";
             document.getElementById('result-avg-score').innerText = avg;
             document.getElementById('result-summary-text').innerText = avg >= 4.5 ? "Exemplary" : avg >= 3.5 ? "Strong Foundation" : "Developing";
+            
+            // Dynamic Label
+            document.getElementById('report-subject-label').innerText = currentMode === 'husband' ? "Husband's Alignment Health" : "Wife's Alignment Health";
 
             // View Switch
             document.getElementById('audit-content').classList.add('hidden');
